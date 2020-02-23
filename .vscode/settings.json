@@ -8,12 +8,30 @@
         "**/*.hex": true
     },
     "files.associations": {
-      "*.h": "c",
-      "*.c": "c",
-      "*.cpp": "cpp",
-      "*.hpp": "cpp",
-      "xstddef": "c",
-      "type_traits": "c",
-      "utility": "c"
-    }
+        "*.h": "c",
+        "*.c": "c",
+        "*.cpp": "cpp",
+        "*.hpp": "cpp",
+        "xstddef": "c",
+        "type_traits": "c",
+        "utility": "c",
+        "*.inc": "c"
+    },
+    "git.ignoreLimitWarning": true,
+    "shellLauncher.shells.windows": [
+        {
+            "shell": "C:\\Program Files\\PowerShell\\7-preview\\pwsh.exe",
+            "label": "PowerShell"
+        },
+        {
+            "shell": "C:\\msys64\\usr\\bin\\bash.exe",
+            "label": "MSYS2",
+            "args": ["--login", "-i"],
+            "env": {
+                "MSYSTEM": "MINGW64",
+                "CHERE_INVOKING": "1",
+                "MSYS2_PATH_TYPE": "inherit"
+            }
+        }
+    ]
 }
