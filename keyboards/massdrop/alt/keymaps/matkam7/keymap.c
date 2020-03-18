@@ -8,6 +8,7 @@ enum alt_keycodes {
     DBG_KBD,               //DEBUG Toggle Keyboard Prints
     DBG_MOU,               //DEBUG Toggle Mouse Prints
     MD_BOOT,               //Restart into bootloader after hold timeout
+    ALT_LAST,              //last default alt keyboard special key
 };
 
 
@@ -18,6 +19,9 @@ enum combos {
   MATKAM_PASTE,
   MATKAM_SAVE,
   MATKAM_PALETTE,
+  MATKAM_UNDO,
+  MATKAM_CUT,
+  // TODO find, close, all, replace, line, ez caps lock
 };
 
 
@@ -26,13 +30,17 @@ const uint16_t PROGMEM copy_combo[] = {KC_N, KC_E, KC_I, KC_O, KC_C, COMBO_END};
 const uint16_t PROGMEM paste_combo[] = {KC_N, KC_E, KC_I, KC_O, KC_V, COMBO_END};
 const uint16_t PROGMEM save_combo[] = {KC_N, KC_E, KC_I, KC_O, KC_S, COMBO_END};
 const uint16_t PROGMEM pallet_combo[] = {KC_N, KC_E, KC_I, KC_O, KC_P, COMBO_END};
+const uint16_t PROGMEM undo_combo[] = {KC_N, KC_E, KC_I, KC_O, KC_Z, COMBO_END};
+const uint16_t PROGMEM cut_combo[] = {KC_N, KC_E, KC_I, KC_O, KC_X, COMBO_END};
 
 combo_t key_combos[COMBO_COUNT] = {
     [MATKAM_ESC] = COMBO(escape_combo, KC_ESC),
     [MATKAM_COPY] = COMBO_ACTION(copy_combo),
     [MATKAM_PASTE] = COMBO_ACTION(paste_combo),
     [MATKAM_SAVE] = COMBO_ACTION(save_combo),
-    [MATKAM_PALETTE] = COMBO_ACTION(pallet_combo)
+    [MATKAM_PALETTE] = COMBO_ACTION(pallet_combo),
+    [MATKAM_UNDO] = COMBO_ACTION(undo_combo),
+    [MATKAM_CUT] = COMBO_ACTION(cut_combo),
 };
 
 void process_combo_event(uint8_t combo_index, bool pressed) {
@@ -57,8 +65,23 @@ void process_combo_event(uint8_t combo_index, bool pressed) {
                 tap_code16(LCTL(KC_P));
             }
             break;
+        case MATKAM_UNDO:
+            if (pressed) {
+                tap_code16(LCTL(KC_Z));
+            }
+            break;
+        case MATKAM_CUT:
+            if (pressed) {
+                tap_code16(LCTL(KC_X));
+            }
+            break;
     }
 }
+
+enum my_keycodes {
+  MK_NO_COM = ALT_LAST,
+  MK_YES_COM
+};
 
 keymap_config_t keymap_config;
 
@@ -85,10 +108,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _______, _______, _______,                            _______,                            _______, _______, KC_HOME, KC_PGDN, KC_END   \
     ),
     [3] = LAYOUT_65_ansi_blocker(
-        _______, _______, _______,    _______,    _______, _______, _______, _______, _______, _______, _______,   _______, _______, _______, DF(0),   \
-        _______, _______, S(KC_COMM), KC_LBRC,    _______, _______, _______, _______, _______, KC_RBRC, S(KC_DOT),   _______, _______,    _______, DF(1),\
-        KC_DEL,  S(KC_9), S(KC_LBRC), S(KC_MINS), S(KC_7), _______, _______, S(KC_1), KC_EQL,  KC_SCLN, S(KC_RBRC),S(KC_0),          _______, _______, \
-        _______, _______, S(KC_8),    S(KC_EQL),  _______, _______, _______, _______, KC_MINS, KC_SLSH, _______,   _______,          _______, _______, \
+        _______, _______, _______,    _______,    _______, _______, _______, _______, _______, _______, _______,   _______, _______, _______, DF(0), \
+        _______, _______, S(KC_COMM), KC_LBRC,    _______, _______, _______, _______, _______, KC_RBRC, S(KC_DOT), _______, _______, _______, DF(1), \
+        KC_DEL,  S(KC_9), S(KC_LBRC), S(KC_MINS), S(KC_7), _______, _______, S(KC_1), KC_EQL,  KC_SCLN, S(KC_RBRC),S(KC_0),          _______, MK_YES_COM, \
+        _______, _______, S(KC_8),    S(KC_EQL),  _______, _______, _______, _______, KC_MINS, KC_SLSH, _______,   _______,          _______, MK_NO_COM, \
         _______, _______, _______,                                  _______,                            _______,   _______, _______, _______, _______  \
     ),
     [4] = LAYOUT_65_ansi_blocker(
@@ -121,10 +144,23 @@ void matrix_scan_user(void) {
 #define MODS_CTRL  (get_mods() & MOD_BIT(KC_LCTL) || get_mods() & MOD_BIT(KC_RCTRL))
 #define MODS_ALT  (get_mods() & MOD_BIT(KC_LALT) || get_mods() & MOD_BIT(KC_RALT))
 
+// TODO ez ctrl+shift
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     static uint32_t key_timer;
 
     switch (keycode) {
+
+        case MK_NO_COM:
+            if(record->event.pressed){
+                combo_disable();
+            }
+            return false;
+        case MK_YES_COM:
+            if(record->event.pressed){
+                combo_enable();
+            }
+            return false;
+
         case U_T_AUTO:
             if (record->event.pressed && MODS_SHIFT && MODS_CTRL) {
                 TOGGLE_FLAG_AND_PRINT(usb_extra_manual, "USB extra port manual mode");
