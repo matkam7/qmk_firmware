@@ -10,19 +10,55 @@ enum alt_keycodes {
     MD_BOOT,               //Restart into bootloader after hold timeout
 };
 
-const uint16_t PROGMEM escape_combo[] = {KC_A, KC_R, KC_S, KC_T, COMBO_END};
 
 
-//TODO
-const uint16_t PROGMEM copy_combo[] = {KC_N, KC_E, KC_I, KC_O, KC_C, COMBO_END};
-const uint16_t PROGMEM paste_combo[] = {KC_N, KC_E, KC_I, KC_O, KC_V, COMBO_END};
-const uint16_t PROGMEM save_combo[] = {KC_N, KC_E, KC_I, KC_O, KC_S, COMBO_END};
-
-combo_t key_combos[COMBO_COUNT] = {
-    COMBO(escape_combo, KC_ESC)
+enum combos {
+  MATKAM_ESC,
+  MATKAM_COPY,
+  MATKAM_PASTE,
+  MATKAM_SAVE,
+  MATKAM_PALETTE,
 };
 
 
+const uint16_t PROGMEM escape_combo[] = {KC_A, KC_R, KC_S, KC_T, COMBO_END};
+const uint16_t PROGMEM copy_combo[] = {KC_N, KC_E, KC_I, KC_O, KC_C, COMBO_END};
+const uint16_t PROGMEM paste_combo[] = {KC_N, KC_E, KC_I, KC_O, KC_V, COMBO_END};
+const uint16_t PROGMEM save_combo[] = {KC_N, KC_E, KC_I, KC_O, KC_S, COMBO_END};
+const uint16_t PROGMEM pallet_combo[] = {KC_N, KC_E, KC_I, KC_O, KC_P, COMBO_END};
+
+combo_t key_combos[COMBO_COUNT] = {
+    [MATKAM_ESC] = COMBO(escape_combo, KC_ESC),
+    [MATKAM_COPY] = COMBO_ACTION(copy_combo),
+    [MATKAM_PASTE] = COMBO_ACTION(paste_combo),
+    [MATKAM_SAVE] = COMBO_ACTION(save_combo),
+    [MATKAM_PALETTE] = COMBO_ACTION(pallet_combo)
+};
+
+void process_combo_event(uint8_t combo_index, bool pressed) {
+    switch(combo_index) {
+        case MATKAM_COPY:
+            if (pressed) {
+                tap_code16(LCTL(KC_C));
+            }
+            break;
+        case MATKAM_PASTE:
+            if (pressed) {
+                tap_code16(LCTL(KC_V));
+            }
+            break;
+        case MATKAM_SAVE:
+            if (pressed) {
+                tap_code16(LCTL(KC_S));
+            }
+            break;
+        case MATKAM_PALETTE:
+            if (pressed) {
+                tap_code16(LCTL(KC_P));
+            }
+            break;
+    }
+}
 
 keymap_config_t keymap_config;
 

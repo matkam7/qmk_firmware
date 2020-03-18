@@ -33,5 +33,6 @@
                 "MSYS2_PATH_TYPE": "inherit"
             }
         }
-    ]
+    ],
+    "remote.SSH.useLocalServer": true
 }
