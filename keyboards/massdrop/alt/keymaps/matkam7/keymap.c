@@ -11,8 +11,6 @@ enum alt_keycodes {
     ALT_LAST,              //last default alt keyboard special key
 };
 
-
-
 enum combos {
   MATKAM_ESC,
   MATKAM_COPY,
@@ -21,9 +19,15 @@ enum combos {
   MATKAM_PALETTE,
   MATKAM_UNDO,
   MATKAM_CUT,
-  // TODO find, close, all, replace, line, ez caps lock
+  MATKAM_FIND,
+  MATKAM_REPLACE,
+  MATKAM_CLOSE,
+  MATKAM_ALL,
+  MATKAM_LINE,
+  MATKAM_CAPS,
+  MATKAM_TAB,
+  MATKAM_ADDRESS
 };
-
 
 const uint16_t PROGMEM escape_combo[] = {KC_A, KC_R, KC_S, KC_T, COMBO_END};
 const uint16_t PROGMEM copy_combo[] = {KC_N, KC_E, KC_I, KC_O, KC_C, COMBO_END};
@@ -32,6 +36,14 @@ const uint16_t PROGMEM save_combo[] = {KC_N, KC_E, KC_I, KC_O, KC_S, COMBO_END};
 const uint16_t PROGMEM pallet_combo[] = {KC_N, KC_E, KC_I, KC_O, KC_P, COMBO_END};
 const uint16_t PROGMEM undo_combo[] = {KC_N, KC_E, KC_I, KC_O, KC_Z, COMBO_END};
 const uint16_t PROGMEM cut_combo[] = {KC_N, KC_E, KC_I, KC_O, KC_X, COMBO_END};
+const uint16_t PROGMEM find_combo[] = {KC_N, KC_E, KC_I, KC_O, KC_F, COMBO_END};
+const uint16_t PROGMEM replace_combo[] = {KC_N, KC_E, KC_I, KC_O, KC_R, COMBO_END};
+const uint16_t PROGMEM close_combo[] = {KC_N, KC_E, KC_I, KC_O, KC_W, COMBO_END};
+const uint16_t PROGMEM all_combo[] = {KC_N, KC_E, KC_I, KC_O, KC_A, COMBO_END};
+const uint16_t PROGMEM line_combo[] = {KC_N, KC_E, KC_I, KC_O, KC_G, COMBO_END};
+const uint16_t PROGMEM caps_combo[] = {KC_N, KC_E, KC_I, KC_O, KC_BSPC, COMBO_END};
+const uint16_t PROGMEM tab_combo[] = {KC_N, KC_E, KC_I, KC_O, KC_T, COMBO_END};
+const uint16_t PROGMEM address_combo[] = {KC_A, KC_R, KC_S, KC_T, KC_E, COMBO_END};
 
 combo_t key_combos[COMBO_COUNT] = {
     [MATKAM_ESC] = COMBO(escape_combo, KC_ESC),
@@ -41,7 +53,16 @@ combo_t key_combos[COMBO_COUNT] = {
     [MATKAM_PALETTE] = COMBO_ACTION(pallet_combo),
     [MATKAM_UNDO] = COMBO_ACTION(undo_combo),
     [MATKAM_CUT] = COMBO_ACTION(cut_combo),
+    [MATKAM_FIND] = COMBO_ACTION(find_combo),
+    [MATKAM_REPLACE] = COMBO_ACTION(replace_combo),
+    [MATKAM_CLOSE] = COMBO_ACTION(close_combo),
+    [MATKAM_ALL] = COMBO_ACTION(all_combo),
+    [MATKAM_LINE] = COMBO_ACTION(line_combo),
+    [MATKAM_CAPS] = COMBO(caps_combo, KC_CAPS),
+    [MATKAM_TAB] = COMBO_ACTION(tab_combo),
+    [MATKAM_ADDRESS] = COMBO_ACTION(address_combo),
 };
+
 
 void process_combo_event(uint8_t combo_index, bool pressed) {
     switch(combo_index) {
@@ -73,6 +94,41 @@ void process_combo_event(uint8_t combo_index, bool pressed) {
         case MATKAM_CUT:
             if (pressed) {
                 tap_code16(LCTL(KC_X));
+            }
+            break;
+        case MATKAM_FIND:
+            if (pressed) {
+                tap_code16(LCTL(KC_F));
+            }
+            break;
+        case MATKAM_REPLACE:
+            if (pressed) {
+                tap_code16(LCTL(KC_R));
+            }
+            break;
+        case MATKAM_CLOSE:
+            if (pressed) {
+                tap_code16(LCTL(KC_W));
+            }
+            break;
+        case MATKAM_ALL:
+            if (pressed) {
+                tap_code16(LCTL(KC_A));
+            }
+            break;
+        case MATKAM_LINE:
+            if (pressed) {
+                tap_code16(LCTL(KC_G));
+            }
+            break;
+        case MATKAM_ADDRESS:
+            if (pressed) {
+                tap_code16(LCTL(KC_E));
+            }
+            break;
+        case MATKAM_TAB:
+            if (pressed) {
+                tap_code16(LCTL(KC_T));
             }
             break;
     }
@@ -118,7 +174,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, \
         _______, KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    _______, _______, KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    _______, _______, \
         _______, KC_HOME, KC_PGDN, KC_PGUP, KC_END,  _______, _______, _______, KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT,          _______, _______, \
-        KC_LSFT, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,          _______, _______, \
+        KC_LSFT, _______, KC_LCTL, KC_LSFT, KC_LALT, _______, _______, _______, KC_RSFT, KC_RCTL, _______, _______,          _______, _______, \
         KC_LCTL, _______, _______,                            _______,                            _______, _______, _______, _______, _______  \
     ),
     /*
