@@ -26,7 +26,9 @@ enum combos {
   MATKAM_LINE,
   MATKAM_CAPS,
   MATKAM_TAB,
-  MATKAM_ADDRESS
+  MATKAM_ADDRESS,
+  MATKAM_KEY_TAB,
+  MATKAM_KEY_UNTAB
 };
 
 const uint16_t PROGMEM escape_combo[] = {KC_A, KC_R, KC_S, KC_T, COMBO_END};
@@ -44,6 +46,8 @@ const uint16_t PROGMEM line_combo[] = {KC_N, KC_E, KC_I, KC_O, KC_G, COMBO_END};
 const uint16_t PROGMEM caps_combo[] = {KC_N, KC_E, KC_I, KC_O, KC_BSPC, COMBO_END};
 const uint16_t PROGMEM tab_combo[] = {KC_N, KC_E, KC_I, KC_O, KC_T, COMBO_END};
 const uint16_t PROGMEM address_combo[] = {KC_A, KC_R, KC_S, KC_T, KC_E, COMBO_END};
+const uint16_t PROGMEM keytab_combo[] = {KC_S, KC_T, KC_I, KC_O, COMBO_END};
+const uint16_t PROGMEM keyuntab_combo[] = {KC_A, KC_R, KC_N, KC_E, COMBO_END};
 
 combo_t key_combos[COMBO_COUNT] = {
     [MATKAM_ESC] = COMBO(escape_combo, KC_ESC),
@@ -61,6 +65,8 @@ combo_t key_combos[COMBO_COUNT] = {
     [MATKAM_CAPS] = COMBO(caps_combo, KC_CAPS),
     [MATKAM_TAB] = COMBO_ACTION(tab_combo),
     [MATKAM_ADDRESS] = COMBO_ACTION(address_combo),
+    [MATKAM_KEY_TAB] = COMBO_ACTION(keytab_combo),
+    [MATKAM_KEY_UNTAB] = COMBO_ACTION(keyuntab_combo),
 };
 
 
@@ -131,6 +137,16 @@ void process_combo_event(uint8_t combo_index, bool pressed) {
                 tap_code16(LCTL(KC_T));
             }
             break;
+        case MATKAM_KEY_TAB:
+            if (pressed) {
+                tap_code16(KC_TAB);
+            }
+            break;
+        case MATKAM_KEY_UNTAB:
+            if (pressed) {
+                tap_code16(S(KC_TAB));
+            }
+            break;
     }
 }
 
@@ -141,36 +157,42 @@ enum my_keycodes {
 
 keymap_config_t keymap_config;
 
+#define LAYER_COLEMAK 0
+#define LAYER_QWERTY 1
+#define LAYER_FN 2
+#define LAYER_CODE 3
+#define LAYER_NAV 4
+
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
-    [0] = LAYOUT_65_ansi_blocker(
+    [LAYER_COLEMAK] = LAYOUT_65_ansi_blocker(
         KC_ESC,  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_EQL,  KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_MINS, KC_BSPC, KC_DEL,  \
         KC_TAB,  KC_Q,    KC_W,    KC_F,    KC_P,    KC_B,    KC_LBRC, KC_J,    KC_L,    KC_U,    KC_Y,    KC_SCLN, KC_QUOT, KC_BSLS, KC_HOME, \
         KC_BSPC, KC_A,    KC_R,    KC_S,    KC_T,    KC_G,    KC_RBRC, KC_K,    KC_N,    KC_E,    KC_I,    KC_O,             KC_ENT,  KC_PGUP, \
         KC_LSFT, KC_X,    KC_C,    KC_D,    KC_V,    KC_Z,    KC_SLSH, KC_M,    KC_H,    KC_COMM, KC_DOT,  KC_RSFT,          KC_UP,   KC_PGDN, \
         KC_LCTL, KC_LGUI, KC_LALT,                            LT(4, KC_SPC),                      MO(3),   MO(2),   KC_LEFT, KC_DOWN, KC_RGHT  \
     ),
-    [1] = LAYOUT_65_ansi_blocker(
+    [LAYER_QWERTY] = LAYOUT_65_ansi_blocker(
         KC_ESC,  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_MINS, KC_EQL,  KC_BSPC, KC_DEL,  \
         KC_TAB,  KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,    KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_LBRC, KC_RBRC, KC_BSLS, KC_HOME, \
         KC_BSPC, KC_A,    KC_S,    KC_D,    KC_F,    KC_G,    KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, KC_QUOT,          KC_ENT,  KC_PGUP, \
         KC_LSFT, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, KC_RSFT,          KC_UP,   KC_PGDN, \
         KC_LCTL, KC_LGUI, KC_LALT,                            KC_SPC,                             MO(3),   MO(2),   KC_LEFT, KC_DOWN, KC_RGHT  \
     ),
-    [2] = LAYOUT_65_ansi_blocker(
+    [LAYER_FN] = LAYOUT_65_ansi_blocker(
         KC_GRV,  KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12,  _______, KC_DEL,  \
         _______, RGB_SPD, RGB_VAI, RGB_SPI, RGB_HUI, RGB_SAI, _______, U_T_AUTO,U_T_AGCR,_______, KC_PSCR, KC_SLCK, KC_PAUS, _______, KC_END,  \
         KC_CAPS, RGB_RMOD,RGB_VAD, RGB_MOD, RGB_HUD, RGB_SAD, _______, _______, _______, _______, _______, _______,          _______, KC_VOLU, \
         _______, RGB_TOG, _______, _______, _______, MD_BOOT, NK_TOGG, DBG_TOG, _______, _______, _______, _______,          KC_PGUP, KC_VOLD, \
         _______, _______, _______,                            _______,                            _______, _______, KC_HOME, KC_PGDN, KC_END   \
     ),
-    [3] = LAYOUT_65_ansi_blocker(
+    [LAYER_CODE] = LAYOUT_65_ansi_blocker(
         _______, _______, _______,    _______,    _______, _______, _______, _______, _______, _______, _______,   _______, _______, _______, DF(0), \
         _______, _______, S(KC_COMM), KC_LBRC,    _______, _______, _______, _______, _______, KC_RBRC, S(KC_DOT), _______, _______, _______, DF(1), \
         KC_DEL,  S(KC_9), S(KC_LBRC), S(KC_MINS), S(KC_7), _______, _______, S(KC_1), KC_EQL,  KC_SCLN, S(KC_RBRC),S(KC_0),          _______, MK_YES_COM, \
         _______, _______, S(KC_8),    S(KC_EQL),  _______, _______, _______, _______, KC_MINS, KC_SLSH, _______,   _______,          _______, MK_NO_COM, \
         _______, _______, _______,                                  _______,                            _______,   _______, _______, _______, _______  \
     ),
-    [4] = LAYOUT_65_ansi_blocker(
+    [LAYER_NAV] = LAYOUT_65_ansi_blocker(
         _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, \
         _______, KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    _______, _______, KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    _______, _______, \
         _______, KC_HOME, KC_PGDN, KC_PGUP, KC_END,  _______, _______, _______, KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT,          _______, _______, \
