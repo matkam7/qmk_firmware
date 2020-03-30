@@ -43,4 +43,6 @@
 #define COMBO_COUNT 17
 
 #define COMBO_TERM 120
+#define TAPPING_TERM 200
+
 

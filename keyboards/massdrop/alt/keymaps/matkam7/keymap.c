@@ -157,19 +157,32 @@ enum my_keycodes {
 
 keymap_config_t keymap_config;
 
+
+//Tap Dance Declarations
+enum {
+  TD_ALT_WIN = 0
+};
+
+//Tap Dance Definitions
+qk_tap_dance_action_t tap_dance_actions[] = {
+  //Tap once for alt, twice for windows
+  [TD_ALT_WIN]  = ACTION_TAP_DANCE_DOUBLE(KC_LALT, KC_LGUI)
+};
+
 #define LAYER_COLEMAK 0
 #define LAYER_QWERTY 1
 #define LAYER_FN 2
 #define LAYER_CODE 3
 #define LAYER_NAV 4
+#define LAYER_NUMPAD 5
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [LAYER_COLEMAK] = LAYOUT_65_ansi_blocker(
-        KC_ESC,  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_EQL,  KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_MINS, KC_BSPC, KC_DEL,  \
-        KC_TAB,  KC_Q,    KC_W,    KC_F,    KC_P,    KC_B,    KC_LBRC, KC_J,    KC_L,    KC_U,    KC_Y,    KC_SCLN, KC_QUOT, KC_BSLS, KC_HOME, \
-        KC_BSPC, KC_A,    KC_R,    KC_S,    KC_T,    KC_G,    KC_RBRC, KC_K,    KC_N,    KC_E,    KC_I,    KC_O,             KC_ENT,  KC_PGUP, \
-        KC_LSFT, KC_X,    KC_C,    KC_D,    KC_V,    KC_Z,    KC_SLSH, KC_M,    KC_H,    KC_COMM, KC_DOT,  KC_RSFT,          KC_UP,   KC_PGDN, \
-        KC_LCTL, KC_LGUI, KC_LALT,                            LT(4, KC_SPC),                      MO(3),   MO(2),   KC_LEFT, KC_DOWN, KC_RGHT  \
+        KC_ESC,  KC_1,          KC_2,         KC_3,    KC_4,    KC_5,    KC_EQL,  KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_MINS, KC_BSPC, KC_DEL,  \
+        KC_TAB,  KC_Q,          KC_W,         KC_F,    KC_P,    KC_B,    KC_LBRC, KC_J,    KC_L,    KC_U,    KC_Y,    KC_SCLN, KC_QUOT, KC_BSLS, KC_HOME, \
+        KC_BSPC, KC_A,          KC_R,         KC_S,    KC_T,    KC_G,    KC_RBRC, KC_K,    KC_N,    KC_E,    KC_I,    KC_O,             KC_ENT,  KC_PGUP, \
+        KC_LSFT, KC_X,          KC_C,         KC_D,    KC_V,    KC_Z,    KC_SLSH, KC_M,    KC_H,    KC_COMM, KC_DOT,  KC_RSFT,          KC_UP,   KC_PGDN, \
+        KC_LCTL, TD(TD_ALT_WIN),MO(LAYER_NAV),                           KC_SPC,                             MO(3),   MO(2),   KC_LEFT, KC_DOWN, KC_RGHT  \
     ),
     [LAYER_QWERTY] = LAYOUT_65_ansi_blocker(
         KC_ESC,  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_MINS, KC_EQL,  KC_BSPC, KC_DEL,  \
@@ -186,11 +199,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _______, _______, _______,                            _______,                            _______, _______, KC_HOME, KC_PGDN, KC_END   \
     ),
     [LAYER_CODE] = LAYOUT_65_ansi_blocker(
-        _______, _______, _______,    _______,    _______, _______, _______, _______, _______, _______, _______,   _______, _______, _______, DF(0), \
-        _______, _______, S(KC_COMM), KC_LBRC,    _______, _______, _______, _______, _______, KC_RBRC, S(KC_DOT), _______, _______, _______, DF(1), \
-        KC_DEL,  S(KC_9), S(KC_LBRC), S(KC_MINS), S(KC_7), _______, _______, S(KC_1), KC_EQL,  KC_SCLN, S(KC_RBRC),S(KC_0),          _______, MK_YES_COM, \
-        _______, _______, S(KC_8),    S(KC_EQL),  _______, _______, _______, _______, KC_MINS, KC_SLSH, _______,   _______,          _______, MK_NO_COM, \
-        _______, _______, _______,                                  _______,                            _______,   _______, _______, _______, _______  \
+        _______, _______,  _______,   _______,    _______, _______, _______, _______, _______, _______,         _______,   _______, _______, _______, DF(0), \
+        _______, S(KC_COMM), KC_LBRC, KC_RBRC,    S(KC_DOT),_______,_______, _______, _______, MO(LAYER_NUMPAD),_______,   _______, _______, _______, DF(1), \
+        KC_DEL,  S(KC_9), S(KC_LBRC), S(KC_RBRC), S(KC_0), _______, _______, S(KC_1), KC_EQL,  KC_SCLN,         S(KC_MINS),S(KC_7),          _______, MK_YES_COM, \
+        _______, _______, S(KC_8),    S(KC_EQL),  _______, _______, _______, _______, KC_MINS, KC_SLSH,         _______,   _______,          _______, MK_NO_COM, \
+        _______, _______, MO(LAYER_NAV),                            _______,                                    _______,   _______, _______, _______, _______  \
     ),
     [LAYER_NAV] = LAYOUT_65_ansi_blocker(
         _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, \
@@ -198,6 +211,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _______, KC_HOME, KC_PGDN, KC_PGUP, KC_END,  _______, _______, _______, KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT,          _______, _______, \
         KC_LSFT, _______, KC_LCTL, KC_LSFT, KC_LALT, _______, _______, _______, KC_RSFT, KC_RCTL, _______, _______,          _______, _______, \
         KC_LCTL, _______, _______,                            _______,                            _______, _______, _______, _______, _______  \
+    ),
+    [LAYER_NUMPAD] = LAYOUT_65_ansi_blocker(
+        _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, \
+        _______, _______, KC_7,    KC_8,    KC_9,    KC_TAB,  _______, _______, _______, _______, _______, _______, _______, _______, _______, \
+        KC_BSPC, _______, KC_4,    KC_5,    KC_6,    KC_ENT,  _______, _______, _______, _______, _______, _______,          _______, _______, \
+        _______, _______, KC_1,    KC_2,    KC_3,    KC_DOT,  _______, _______, _______, _______, _______, _______,          _______, _______, \
+        _______, _______, _______,                            KC_0,                               _______, _______, _______, _______, _______  \
     ),
     /*
     [X] = LAYOUT(
