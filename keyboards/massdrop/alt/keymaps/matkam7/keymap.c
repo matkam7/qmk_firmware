@@ -18,6 +18,7 @@ enum combos {
   MATKAM_SAVE,
   MATKAM_PALETTE,
   MATKAM_UNDO,
+  MATKAM_UNDO2,
   MATKAM_CUT,
   MATKAM_FIND,
   MATKAM_REPLACE,
@@ -37,6 +38,7 @@ const uint16_t PROGMEM paste_combo[] = {KC_N, KC_E, KC_I, KC_O, KC_V, COMBO_END}
 const uint16_t PROGMEM save_combo[] = {KC_N, KC_E, KC_I, KC_O, KC_S, COMBO_END};
 const uint16_t PROGMEM pallet_combo[] = {KC_N, KC_E, KC_I, KC_O, KC_P, COMBO_END};
 const uint16_t PROGMEM undo_combo[] = {KC_N, KC_E, KC_I, KC_O, KC_Z, COMBO_END};
+const uint16_t PROGMEM undo2_combo[] = {KC_X, KC_C, KC_D, KC_V, COMBO_END};
 const uint16_t PROGMEM cut_combo[] = {KC_N, KC_E, KC_I, KC_O, KC_X, COMBO_END};
 const uint16_t PROGMEM find_combo[] = {KC_N, KC_E, KC_I, KC_O, KC_F, COMBO_END};
 const uint16_t PROGMEM replace_combo[] = {KC_N, KC_E, KC_I, KC_O, KC_R, COMBO_END};
@@ -56,6 +58,7 @@ combo_t key_combos[COMBO_COUNT] = {
     [MATKAM_SAVE] = COMBO_ACTION(save_combo),
     [MATKAM_PALETTE] = COMBO_ACTION(pallet_combo),
     [MATKAM_UNDO] = COMBO_ACTION(undo_combo),
+    [MATKAM_UNDO2] = COMBO_ACTION(undo2_combo),
     [MATKAM_CUT] = COMBO_ACTION(cut_combo),
     [MATKAM_FIND] = COMBO_ACTION(find_combo),
     [MATKAM_REPLACE] = COMBO_ACTION(replace_combo),
@@ -93,6 +96,7 @@ void process_combo_event(uint8_t combo_index, bool pressed) {
             }
             break;
         case MATKAM_UNDO:
+        case MATKAM_UNDO2:
             if (pressed) {
                 tap_code16(LCTL(KC_Z));
             }
@@ -200,9 +204,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
     [LAYER_CODE] = LAYOUT_65_ansi_blocker(
         _______, _______,  _______,   _______,    _______, _______, _______, _______, _______, _______,         _______,   _______, _______, _______, DF(0), \
-        _______, S(KC_COMM), KC_LBRC, KC_RBRC,    S(KC_DOT),_______,_______, _______, _______, MO(LAYER_NUMPAD),_______,   _______, _______, _______, DF(1), \
-        KC_DEL,  S(KC_9), S(KC_LBRC), S(KC_RBRC), S(KC_0), _______, _______, S(KC_1), KC_EQL,  KC_SCLN,         S(KC_MINS),S(KC_7),          _______, MK_YES_COM, \
-        _______, _______, S(KC_8),    S(KC_EQL),  _______, _______, _______, _______, KC_MINS, KC_SLSH,         _______,   _______,          _______, MK_NO_COM, \
+        _______, S(KC_COMM), KC_LBRC, KC_RBRC,    S(KC_DOT),S(KC_6),_______, _______, _______, MO(LAYER_NUMPAD),_______,   _______, _______, _______, DF(1), \
+        KC_DEL,  S(KC_9), S(KC_LBRC), S(KC_RBRC), S(KC_0), S(KC_2), S(KC_5), S(KC_1), KC_EQL,  KC_SCLN,         S(KC_MINS),S(KC_7),          _______, MK_YES_COM, \
+        _______, _______, S(KC_8),    S(KC_EQL),  S(KC_3), _______, _______, S(KC_4), KC_MINS, KC_SLSH,         _______,   _______,          _______, MK_NO_COM, \
         _______, _______, MO(LAYER_NAV),                            _______,                                    _______,   _______, _______, _______, _______  \
     ),
     [LAYER_NAV] = LAYOUT_65_ansi_blocker(
@@ -213,11 +217,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_LCTL, _______, _______,                            _______,                            _______, _______, _______, _______, _______  \
     ),
     [LAYER_NUMPAD] = LAYOUT_65_ansi_blocker(
-        _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, \
-        _______, _______, KC_7,    KC_8,    KC_9,    KC_TAB,  _______, _______, _______, _______, _______, _______, _______, _______, _______, \
+        _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, DM_REC1, \
+        _______, _______, KC_7,    KC_8,    KC_9,    KC_TAB,  _______, _______, _______, _______, _______, _______, _______, _______, DM_RSTP, \
         KC_BSPC, _______, KC_4,    KC_5,    KC_6,    KC_ENT,  _______, _______, _______, _______, _______, _______,          _______, _______, \
         _______, _______, KC_1,    KC_2,    KC_3,    KC_DOT,  _______, _______, _______, _______, _______, _______,          _______, _______, \
-        _______, _______, _______,                            KC_0,                               _______, _______, _______, _______, _______  \
+        _______, _______, _______,                            KC_0,                               _______, _______, _______, _______, DM_PLY1  \
     ),
     /*
     [X] = LAYOUT(
