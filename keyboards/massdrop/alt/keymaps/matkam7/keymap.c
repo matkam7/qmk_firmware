@@ -13,6 +13,7 @@ enum alt_keycodes {
 
 enum combos {
   MATKAM_ESC,
+  MATKAM_NAV,
   MATKAM_COPY,
   MATKAM_PASTE,
   MATKAM_SAVE,
@@ -32,6 +33,14 @@ enum combos {
   MATKAM_KEY_UNTAB
 };
 
+#define LAYER_COLEMAK 0
+#define LAYER_QWERTY 1
+#define LAYER_FN 2
+#define LAYER_CODE 3
+#define LAYER_NAV 4
+#define LAYER_NUMPAD 5
+
+const uint16_t PROGMEM nav_combo[] = {KC_A, KC_R, COMBO_END};
 const uint16_t PROGMEM escape_combo[] = {KC_A, KC_R, KC_S, KC_T, COMBO_END};
 const uint16_t PROGMEM copy_combo[] = {KC_N, KC_E, KC_I, KC_O, KC_C, COMBO_END};
 const uint16_t PROGMEM paste_combo[] = {KC_N, KC_E, KC_I, KC_O, KC_V, COMBO_END};
@@ -52,6 +61,7 @@ const uint16_t PROGMEM keytab_combo[] = {KC_S, KC_T, KC_I, KC_O, COMBO_END};
 const uint16_t PROGMEM keyuntab_combo[] = {KC_A, KC_R, KC_N, KC_E, COMBO_END};
 
 combo_t key_combos[COMBO_COUNT] = {
+    [MATKAM_NAV] = COMBO_ACTION(nav_combo),
     [MATKAM_ESC] = COMBO(escape_combo, KC_ESC),
     [MATKAM_COPY] = COMBO_ACTION(copy_combo),
     [MATKAM_PASTE] = COMBO_ACTION(paste_combo),
@@ -75,6 +85,12 @@ combo_t key_combos[COMBO_COUNT] = {
 
 void process_combo_event(uint8_t combo_index, bool pressed) {
     switch(combo_index) {
+        case MATKAM_NAV:
+            if (pressed) {
+                layer_on(LAYER_NAV);
+            } else {
+                layer_off(LAYER_NAV);
+            }
         case MATKAM_COPY:
             if (pressed) {
                 tap_code16(LCTL(KC_C));
@@ -173,12 +189,7 @@ qk_tap_dance_action_t tap_dance_actions[] = {
   [TD_ALT_WIN]  = ACTION_TAP_DANCE_DOUBLE(KC_LALT, KC_LGUI)
 };
 
-#define LAYER_COLEMAK 0
-#define LAYER_QWERTY 1
-#define LAYER_FN 2
-#define LAYER_CODE 3
-#define LAYER_NAV 4
-#define LAYER_NUMPAD 5
+
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [LAYER_COLEMAK] = LAYOUT_65_ansi_blocker(
@@ -212,7 +223,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [LAYER_NAV] = LAYOUT_65_ansi_blocker(
         _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, \
         _______, KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    _______, _______, KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    _______, _______, \
-        _______, KC_HOME, KC_PGDN, KC_PGUP, KC_END,  _______, _______, _______, KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT,          _______, _______, \
+        _______, _______, _______, KC_HOME, KC_END,  _______, _______, _______, KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT,          _______, _______, \
         KC_LSFT, _______, KC_LCTL, KC_LSFT, KC_LALT, _______, _______, _______, KC_RSFT, KC_RCTL, _______, _______,          _______, _______, \
         KC_LCTL, _______, _______,                            _______,                            _______, _______, _______, _______, _______  \
     ),
