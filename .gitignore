@@ -70,3 +70,5 @@ id_rsa_*
 
 # python things
 __pycache__
+
+!applet-flash-samd51j18a.bin
