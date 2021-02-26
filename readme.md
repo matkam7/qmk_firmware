@@ -1,13 +1,14 @@
 # Quantum Mechanical Keyboard Firmware
 
-[![Current Version](https://img.shields.io/github/tag/qmk/qmk_firmware.svg)](https://github.com/qmk/qmk_firmware/tags)
-[![Build Status](https://travis-ci.org/qmk/qmk_firmware.svg?branch=master)](https://travis-ci.org/qmk/qmk_firmware)
-[![Discord](https://img.shields.io/discord/440868230475677696.svg)](https://discord.gg/Uq7gcHh)
-[![Docs Status](https://img.shields.io/badge/docs-ready-orange.svg)](https://docs.qmk.fm)
-[![GitHub contributors](https://img.shields.io/github/contributors/qmk/qmk_firmware.svg)](https://github.com/qmk/qmk_firmware/pulse/monthly)
-[![GitHub forks](https://img.shields.io/github/forks/qmk/qmk_firmware.svg?style=social&label=Fork)](https://github.com/qmk/qmk_firmware/)
+This is my QMK Fork for the ZSA Moonlander keyboard. It probably wouldn't be wise to directly build and flash my keyboard, but maybe this layout may give you some ideas for your keyboards.
 
-This is a keyboard firmware based on the [tmk\_keyboard firmware](https://github.com/tmk/tmk_keyboard) with some useful features for Atmel AVR and ARM controllers, and more specifically, the [OLKB product line](https://olkb.com), the [ErgoDox EZ](https://ergodox-ez.com) keyboard, and the [Clueboard product line](https://clueboard.co).
+The layout used for my layout is colemak mod dh wide ansi.
+
+The easiest way to build the board is using Docker. 
+First, get the docker container with `docker pull qmkfm/qmk_firmware`.
+Then, on Linux distros you can directly run `./util/docker_build.sh moonlander:matkam7`. On Windows, you can run `& 'C:\Program Files\Git\bin\bash.exe' --cd="." .\util\docker_build.sh moonlander:matkam7`.
+
+To flash on Windows, run the flasher tool in the Wally folder `.\Wally\Wally.exe`.
 
 ## Documentation
 
