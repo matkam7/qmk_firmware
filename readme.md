@@ -6,7 +6,7 @@ The layout used for my layout is colemak mod dh wide ansi.
 
 The easiest way to build the board is using Docker. 
 First, get the docker container with `docker pull qmkfm/qmk_firmware`.
-Then, on Linux distros you can directly run `./util/docker_build.sh massdrop/alt:matkam7`. On Windows, you can run `'C:\Program Files\Git\bin\bash.exe' --cd="." .\util\docker_build.sh massdrop/alt:matkam7`.
+Then, on Linux distros you can directly run `./util/docker_build.sh massdrop/alt:matkam7`. On Windows, you can run `& 'C:\Program Files\Git\bin\bash.exe' --cd="." .\util\docker_build.sh massdrop/alt:matkam7`.
 
 To flash, run `./mdloader_windows.exe --first --download massdrop_alt_matkam7.bin --restart` and press the key combination to enter bootloader mode (FN + Z on my layout).
 
