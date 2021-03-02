@@ -65,7 +65,7 @@ const uint16_t PROGMEM paste_combo[] = {KC_N, KC_E, KC_I, KC_O, KC_V, COMBO_END}
 const uint16_t PROGMEM save_combo[] = {KC_N, KC_E, KC_I, KC_O, KC_S, COMBO_END};
 const uint16_t PROGMEM pallet_combo[] = {KC_N, KC_E, KC_I, KC_O, KC_P, COMBO_END};
 const uint16_t PROGMEM undo_combo[] = {KC_N, KC_E, KC_I, KC_O, KC_Z, COMBO_END};
-const uint16_t PROGMEM undo2_combo[] = {KC_X, KC_C, KC_D, KC_V, COMBO_END};
+const uint16_t PROGMEM undo2_combo[] = {KC_X, KC_C, KC_D, KC_Z, COMBO_END};
 const uint16_t PROGMEM cut_combo[] = {KC_N, KC_E, KC_I, KC_O, KC_X, COMBO_END};
 const uint16_t PROGMEM find_combo[] = {KC_N, KC_E, KC_I, KC_O, KC_F, COMBO_END};
 const uint16_t PROGMEM replace_combo[] = {KC_N, KC_E, KC_I, KC_O, KC_R, COMBO_END};
@@ -99,7 +99,6 @@ combo_t key_combos[COMBO_COUNT] = {
     [MATKAM_KEY_TAB] = COMBO_ACTION(keytab_combo),
     [MATKAM_KEY_UNTAB] = COMBO_ACTION(keyuntab_combo),
 };
-
 
 void process_combo_event(uint16_t combo_index, bool pressed) {
     switch(combo_index) {
@@ -254,7 +253,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_ESC,  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    _______,           _______, KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    _______,
         KC_TAB,  KC_Q,    KC_W,    KC_F,    KC_P,    KC_B,    _______,           _______, KC_J,    KC_L,    KC_U,    KC_Y,    KC_SCLN, KC_QUOT,
         KC_BSPC, KC_A,    KC_R,    KC_S,    KC_T,    KC_G,    _______,           KC_SLSH, KC_K,    KC_N,    KC_E,    KC_I,    KC_O,    KC_ENT,
-        KC_LSFT, KC_X,    KC_C,    KC_D,    KC_V,    KC_Z,                                KC_M,    KC_H,    KC_COMM, KC_DOT,  KC_RSFT, KC_RSFT,
+        KC_LSFT, KC_Z,    KC_X,    KC_C,    KC_D,    KC_V,                                KC_M,    KC_H,    KC_COMM, KC_DOT,  KC_RSFT, KC_RSFT,
         KC_LCTL, WEBUSB_PAIR,A(KC_LSFT),KC_LEFT, KC_RGHT,  LALT_T(KC_APP),       RCTL_T(KC_ESC),   KC_UP,   KC_DOWN, KC_LBRC, KC_RBRC, _______,
                                             MO(CODE),  _______, _______,           KC_LGUI,  MO(NUMPAD),  KC_SPC
     ),
