@@ -33,7 +33,9 @@ enum layers {
     FN,
     CODE,
     NAV,
-    NUMPAD
+    NUMPAD,
+    RECORD_1,
+    RECORD_2,
 };
 
 enum combos {
@@ -250,12 +252,12 @@ qk_tap_dance_action_t tap_dance_actions[] = {
 // clang-format off
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [COLEMAK] = LAYOUT_moonlander(
-        KC_ESC,  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    _______,           _______, KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    _______,
+        KC_ESC,  _______, _______, _______, _______, _______, RGB_MOD,           RGB_TOG, _______, _______, _______, MK_YES_COM, MK_NO_COM, DF(QWERTY),
         KC_TAB,  KC_Q,    KC_W,    KC_F,    KC_P,    KC_B,    _______,           _______, KC_J,    KC_L,    KC_U,    KC_Y,    KC_SCLN, KC_QUOT,
         KC_BSPC, KC_A,    KC_R,    KC_S,    KC_T,    KC_G,    _______,           KC_SLSH, KC_K,    KC_N,    KC_E,    KC_I,    KC_O,    KC_ENT,
         KC_LSFT, KC_Z,    KC_X,    KC_C,    KC_D,    KC_V,                                KC_M,    KC_H,    KC_COMM, KC_DOT,  KC_RSFT, KC_RSFT,
-        KC_LCTL, WEBUSB_PAIR,A(KC_LSFT),KC_LEFT, KC_RGHT,  LALT_T(KC_APP),       RCTL_T(KC_ESC),   KC_UP,   KC_DOWN, KC_LBRC, KC_RBRC, _______,
-                                            MO(CODE),  _______, _______,           KC_LGUI,  MO(NUMPAD),  KC_SPC
+        KC_LCTL, WEBUSB_PAIR,A(KC_LSFT),KC_LEFT, KC_RGHT,  MO(RECORD_1),       MO(RECORD_2),   KC_UP,   KC_DOWN, KC_LBRC, KC_RBRC, KC_GRV,
+                                            LT(CODE, KC_SPC),  _______, KC_LGUI,           MO(FN),  MO(NUMPAD),  LT(CODE, KC_SPC)
     ),
     [NAV] = LAYOUT_moonlander(
         _______, _______, _______, _______, _______, _______, _______,           _______, _______,    _______,    _______,    _______,    _______,    _______,
@@ -266,7 +268,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                             KC_PGDN,  _______, _______,           _______,  _______,  KC_PGUP
     ),
     [CODE] = LAYOUT_moonlander(
-       _______, _______, _______, _______, _______, _______, _______,                 _______, _______,    _______,    _______,    _______,    _______,    _______,
+       _______, KC_1,    KC_2,    KC_3,    KC_4,    KC_5, _______,                 _______, KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    _______,
        _______, S(KC_COMM), KC_LBRC, KC_RBRC,    S(KC_DOT),S(KC_6), _______,               _______, _______,    _______,    _______,    _______,    _______,    _______,
         KC_DEL,  S(KC_9), S(KC_LBRC), S(KC_RBRC), S(KC_0), S(KC_2), S(KC_5),          _______,  S(KC_1), KC_EQL,  KC_SCLN,         S(KC_MINS),S(KC_7),    _______,
        _______, _______,  S(KC_8),    S(KC_EQL),  S(KC_3),_______,                                   _______,    S(KC_4), KC_MINS, KC_SLSH,    _______,    _______,
@@ -280,6 +282,38 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
        _______, _______, KC_1,    KC_2,    KC_3,    KC_DOT,                              _______,    _______,    _______,    _______,    _______,    _______,
        _______, _______, _______, _______, _______,  LALT_T(KC_APP),             RCTL_T(KC_ESC),     _______,    _______,    _______,    _______,    _______,
                                            KC_0  ,  _______, _______,           _______,  _______,  _______
+    ),
+    [QWERTY] = LAYOUT_moonlander(
+        KC_EQL,  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_LEFT,           KC_RGHT, KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    DF(COLEMAK),
+        KC_DEL,  KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,    _______,           _______, KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_BSLS,
+        KC_BSPC, KC_A,    KC_S,    KC_D,    KC_F,    KC_G,    KC_HYPR,           KC_MEH,  KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, LGUI_T(KC_QUOT),
+        KC_LSFT, LCTL_T(KC_Z),KC_X,KC_C,    KC_V,    KC_B,                                KC_N,    KC_M,    KC_COMM, KC_DOT,  RCTL_T(KC_SLSH), KC_RSFT,
+        KC_GRV,WEBUSB_PAIR,A(KC_LSFT),KC_LEFT, KC_RGHT,  LALT_T(KC_APP),    RCTL_T(KC_ESC),   KC_UP,   KC_DOWN, KC_LBRC, KC_RBRC, _______,
+                                            KC_SPC,  KC_BSPC, KC_LGUI,           KC_LALT,  KC_TAB,  KC_ENT
+    ),
+    [FN] = LAYOUT_moonlander(
+        _______, KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5, KC_F11,           KC_F12, KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,   _______,
+        _______, _______, _______, _______, _______, _______, _______,           _______, _______,    _______,    _______,    _______,    _______,    _______,
+        _______, _______, _______, _______,  _______, _______, _______,           _______, _______,   _______,    _______,    _______,    _______,    _______,
+        _______, _______, _______, _______, _______, _______,                             _______,    _______,    _______,    _______,    _______,    _______,
+        _______, _______, _______, _______, _______,  LALT_T(KC_APP),             RCTL_T(KC_ESC),     _______,    _______,    _______,    _______,    _______,
+                                            _______,  _______, _______,           _______,  _______,  _______
+    ),
+    [RECORD_2] = LAYOUT_moonlander(
+        _______, _______, _______, _______, _______, _______, _______,           _______, _______,    _______,    _______,    _______,    _______,    _______,
+        _______, _______, _______, _______, _______, _______, _______,           _______, _______,    _______,    _______,    _______,    _______,    _______,
+        _______, _______, _______, _______,  _______, _______, _______,           _______, _______,   _______,    _______,    _______,    _______,    _______,
+        _______, _______, _______, _______, _______, _______,                             _______,    _______,    _______,    _______,    _______,    _______,
+        _______, _______, _______, _______, _______,  _______,             _______,     _______,    _______,    _______,    _______,    _______,
+                                            DM_REC2,  DM_RSTP, DM_PLY2,           _______,  _______,  _______
+    ),
+    [RECORD_1] = LAYOUT_moonlander(
+        _______, _______, _______, _______, _______, _______, _______,           _______, _______,    _______,    _______,    _______,    _______,    _______,
+        _______, _______, _______, _______, _______, _______, _______,           _______, _______,    _______,    _______,    _______,    _______,    _______,
+        _______, _______, _______, _______,  _______, _______, _______,           _______, _______,   _______,    _______,    _______,    _______,    _______,
+        _______, _______, _______, _______, _______, _______,                             _______,    _______,    _______,    _______,    _______,    _______,
+        _______, _______, _______, _______, _______,  _______,             _______,     _______,    _______,    _______,    _______,    _______,
+                                            _______,  _______, _______,           DM_REC1,  DM_RSTP,  DM_PLY1
     ),
 };
 
